@@ -4,10 +4,8 @@ import br.com.haroldo.clientes.model.entity.Cliente;
 import br.com.haroldo.clientes.model.repository.ClienteRespository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/api/clientes")
@@ -22,8 +20,38 @@ public class ClienteController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Cliente salvar(Cliente cliente) {
+    public Cliente salvar(@RequestBody Cliente cliente) {
         return respository.save(cliente);
+    }
+
+    @GetMapping("{id}")
+    public Cliente acharPorId(@PathVariable Integer id) {
+        return respository
+                .findById(id)
+                .orElseThrow( () -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
+
+    @DeleteMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deletar(@PathVariable Integer id) {
+        respository
+            .findById(id)
+            .map( cliente -> {
+                respository.delete(cliente);
+                return Void.TYPE;
+            }).orElseThrow( () -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
+
+
+    @PutMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void atualizar(@PathVariable Integer id, @RequestBody Cliente clienteAtualizado) {
+        respository
+                .findById(id)
+                .map( cliente -> {
+                    clienteAtualizado.setId(cliente.getId());
+                    return respository.save(clienteAtualizado);
+                }).orElseThrow( () -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
 }
