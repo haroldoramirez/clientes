@@ -42,6 +42,12 @@
 			<artifactId>h2</artifactId>
 		</dependency>
 
+		<!-- DRIVER DO BANCO POSTGRES -->
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
