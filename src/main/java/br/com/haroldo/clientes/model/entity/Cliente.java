@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -26,11 +26,11 @@ public class Cliente {
     private String cpf;
 
     @Column(name = "data_cadastro")
-    private LocalDate dataCadastro;
+    private LocalDateTime dataCadastro;
 
     @PrePersist
     public void prePersist() {
-        setDataCadastro(LocalDate.now());
+        setDataCadastro(LocalDateTime.now());
     }
 
 }
