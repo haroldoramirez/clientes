@@ -2,6 +2,7 @@ package br.com.haroldo.clientes.rest;
 
 import br.com.haroldo.clientes.model.entity.Cliente;
 import br.com.haroldo.clientes.model.repository.ClienteRespository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ public class ClienteController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Cliente salvar(@RequestBody Cliente cliente) {
+    public Cliente salvar(@RequestBody @Valid Cliente cliente) {
         return respository.save(cliente);
     }
 
